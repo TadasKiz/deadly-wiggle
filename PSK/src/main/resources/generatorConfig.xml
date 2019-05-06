@@ -6,7 +6,7 @@
 <generatorConfiguration>
     <context id="StudentsDB" targetRuntime="MyBatis3Simple">
         <jdbcConnection driverClass="org.h2.Driver"
-                        connectionURL="jdbc:h2:~/h2database/StudentsDB;AUTO_SERVER=TRUE"
+                        connectionURL="jdbc:h2:~/h2database/EmployeesDB;AUTO_SERVER=TRUE"
                         userId="sa"
                         password="sa">
         </jdbcConnection>
@@ -26,19 +26,19 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="lt.vu.usecases.mybatis.dao" targetProject="MAVEN" />
 
         
-        <table schema="public" tableName="university">
+        <table schema="public" tableName="company">
             <generatedKey column="id" identity="true" sqlStatement="JDBC" />
             <ignoreColumn column="opt_lock_version" />
         </table>
-        <table schema="public" tableName="student">
+        <table schema="public" tableName="employee">
             <generatedKey column="id" identity="true" sqlStatement="JDBC" />
             <ignoreColumn column="opt_lock_version" />
         </table>
-        <table schema="public" tableName="course">
+        <table schema="public" tableName="deed">
             <generatedKey column="id" identity="true" sqlStatement="JDBC" />
             <ignoreColumn column="opt_lock_version" />
         </table>
-        <table schema="public" tableName="student_course">
+        <table schema="public" tableName="employee_deed">
         </table>
     </context>
 </generatorConfiguration>

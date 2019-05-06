@@ -7,119 +7,119 @@
 >
     <h:head>
         <h:outputStylesheet name="css/styles.css" />
-        <title>Edit Student with Optimistic Locking</title>
+        <title>Edit Employee with Optimistic Locking</title>
     </h:head>
 
     <h:body>
-        <h1>Edit Student with Optimistic Locking</h1>
+        <h1>Edit Employee with Optimistic Locking</h1>
 
         <h:form id="form">
             <p:fieldset id="list" style="width: 50%">
                 <f:facet name="legend">
-                    All students
+                    All employee
                     <p:commandButton value="Refresh" icon="ui-icon-arrowrefresh-1-e"
-                                     actionListener="#{editStudentUseCaseController.reloadAll}"
+                                     actionListener="#{editEmployeeUseCaseController.reloadAll}"
                                      update=":form:list"/>
                 </f:facet>
 
-                <p:dataTable value="#{editStudentUseCaseController.allStudents}" var="student" tableStyle="table-layout: auto">
-                    <p:column headerText="Student">
-                        #{student.firstName} #{student.lastName}, <br/><b>Reg. nr.</b>: #{student.registrationNo}
+                <p:dataTable value="#{editEmployeeUseCaseController.allEmployees}" var="employee" tableStyle="table-layout: auto">
+                    <p:column headerText="Employee">
+                        #{employee.firstName} #{employee.lastName}, <br/><b>Reg. nr.</b>: #{employee.registrationNo}
                     </p:column>
-                    <p:column headerText="Courses">
-                        <ui:repeat var="course" value="#{student.courseList}" varStatus="courseStatus">
-                            #{course.name}<h:outputText value=", " rendered="#{not courseStatus.last}"/>
+                    <p:column headerText="Deeds">
+                        <ui:repeat var="deed" value="#{employee.deedList}" varStatus="deedStatus">
+                            #{deed.name}<h:outputText value=", " rendered="#{not deedStatus.last}"/>
                         </ui:repeat>
                     </p:column>
-                    <p:column headerText="University">
-                        #{student.university.title}
+                    <p:column headerText="Company">
+                        #{employee.company.title}
                     </p:column>
                     <p:column>
                         <p:commandButton value="Edit" icon="ui-icon-pencil"
-                                         actionListener="#{editStudentUseCaseController.prepareForEditing(student)}"
-                                         update=":form:studentDetail"
-                                         oncomplete="PF('studentDialog').show()" />
+                                         actionListener="#{editEmployeeUseCaseController.prepareForEditing(employee)}"
+                                         update=":form:employeeDetail"
+                                         oncomplete="PF('employeeDialog').show()" />
                     </p:column>
                 </p:dataTable>
             </p:fieldset>
 
-            <p:dialog header="Edit Student" widgetVar="studentDialog" modal="true" closable="true" resizable="false" closeOnEscape="true">
-                <p:outputPanel id="studentDetail">
-                    <h:outputText value="No student was selected... Weird..." rendered="#{empty editStudentUseCaseController.selectedStudent}" />
-                    <p:panelGrid  columns="3" rendered="#{not empty editStudentUseCaseController.selectedStudent}"
+            <p:dialog header="Edit Employee" widgetVar="employeeDialog" modal="true" closable="true" resizable="false" closeOnEscape="true">
+                <p:outputPanel id="employeeDetail">
+                    <h:outputText value="No employee was selected... Weird..." rendered="#{empty editEmployeeUseCaseController.selectedEmployee}" />
+                    <p:panelGrid  columns="3" rendered="#{not empty editEmployeeUseCaseController.selectedEmployee}"
                                   columnClasses="label,value" styleClass="ui-noborder">
                         <p:outputLabel for="firstName" value="First name:"/>
-                        <p:inputText id="firstName" value="#{editStudentUseCaseController.selectedStudent.firstName}"/>
+                        <p:inputText id="firstName" value="#{editEmployeeUseCaseController.selectedEmployee.firstName}"/>
                         <p:message for="firstName"/>
 
                         <p:outputLabel for="lastName" value="Last name:"/>
-                        <p:inputText id="lastName" value="#{editStudentUseCaseController.selectedStudent.lastName}"/>
+                        <p:inputText id="lastName" value="#{editEmployeeUseCaseController.selectedEmployee.lastName}"/>
                         <p:message for="lastName"/>
 
                         <p:outputLabel for="regnr" value="Registration No.:"/>
-                        <p:inputText id="regnr" value="#{editStudentUseCaseController.selectedStudent.registrationNo}"/>
+                        <p:inputText id="regnr" value="#{editEmployeeUseCaseController.selectedEmployee.registrationNo}"/>
                         <p:message for="regnr"/>
 
-                        <p:outputLabel for="university" value="University:"/>
-                        <p:selectOneMenu id="university" value="#{editStudentUseCaseController.selectedStudent.university}"
+                        <p:outputLabel for="company" value="Company:"/>
+                        <p:selectOneMenu id="company" value="#{editEmployeeUseCaseController.selectedEmployee.company}"
                                          converter="omnifaces.SelectItemsIndexConverter">
-                            <f:selectItem itemLabel="Select university:" itemValue="#{null}"/>
-                            <f:selectItems value="#{editStudentUseCaseController.allUniversities}" var="university"
-                                           itemLabel="#{university.title}" itemValue="#{university}"/>
+                            <f:selectItem itemLabel="Select company:" itemValue="#{null}"/>
+                            <f:selectItems value="#{editEmployeeUseCaseController.allCompanies}" var="company"
+                                           itemLabel="#{company.title}" itemValue="#{company}"/>
                         </p:selectOneMenu>
-                        <p:message for="university"/>
+                        <p:message for="company"/>
 
-                        <h:outputText value="Courses:"/>
-                        <p:selectCheckboxMenu id="courses" value="#{editStudentUseCaseController.selectedStudent.courseList}"
+                        <h:outputText value="Deed:"/>
+                        <p:selectCheckboxMenu id="deeds" value="#{editEmployeeUseCaseController.selectedEmployee.deedList}"
                                               converter="omnifaces.SelectItemsIndexConverter"
-                                              label="Select courses:" updateLabel="true"
+                                              label="Select deeds:" updateLabel="true"
                                               filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
                             <f:attribute name="collectionType" value="java.util.ArrayList" /> <!-- Kitaip JSF bando kurti naują Hibernate PersistentBag ir būna bėdos... -->
-                            <f:selectItems value="#{editStudentUseCaseController.allCourses}" var="course"
-                                           itemLabel="#{course.name}" itemValue="#{course}" />
+                            <f:selectItems value="#{editEmployeeUseCaseController.allDeeds}" var="deed"
+                                           itemLabel="#{deed.name}" itemValue="#{deed}" />
                         </p:selectCheckboxMenu>
-                        <p:message for="courses"/>
+                        <p:message for="deeds"/>
 
                         <h:outputText value="Opt. version:" />
-                        <h:outputText value="#{editStudentUseCaseController.selectedStudent.optLockVersion}" style="font-weight: bold"/>
+                        <h:outputText value="#{editEmployeeUseCaseController.selectedEmployee.optLockVersion}" style="font-weight: bold"/>
                     </p:panelGrid>
 
-                    <p:commandButton value="Update" actionListener="#{editStudentUseCaseController.updateSelectedStudent}"
-                                     rendered="#{empty editStudentUseCaseController.conflictingStudent}"
+                    <p:commandButton value="Update" actionListener="#{editEmployeeUseCaseController.updateSelectedEmployee}"
+                                     rendered="#{empty editEmployeeUseCaseController.conflictingEmployee}"
                                      icon="ui-icon-check" style="margin-top: 1em"
-                                     update=":form:studentDetail :form:list"
-                                     oncomplete="if (args &amp;&amp; !args.validationFailed) PF('studentDialog').hide()" />
+                                     update=":form:employeeDetail :form:list"
+                                     oncomplete="if (args &amp;&amp; !args.validationFailed) PF('employeeDialog').hide()" />
 
-                    <p:panelGrid  columns="2" rendered="#{not empty editStudentUseCaseController.conflictingStudent}"
+                    <p:panelGrid  columns="2" rendered="#{not empty editEmployeeUseCaseController.conflictingEmployee}"
                                   columnClasses="label,value" styleClass="ui-noborder" style="margin-top: 1em">
-                        <f:facet name="header">Conflicting student</f:facet>
+                        <f:facet name="header">Conflicting employee</f:facet>
 
                         <h:outputText value="First name:"/>
-                        <h:outputText value="#{editStudentUseCaseController.conflictingStudent.firstName}"/>
+                        <h:outputText value="#{editEmployeeUseCaseController.conflictingEmployee.firstName}"/>
 
                         <h:outputText value="Last name:"/>
-                        <h:outputText value="#{editStudentUseCaseController.conflictingStudent.lastName}"/>
+                        <h:outputText value="#{editEmployeeUseCaseController.conflictingEmployee.lastName}"/>
 
                         <h:outputText value="Registration No.:"/>
-                        <h:outputText value="#{editStudentUseCaseController.conflictingStudent.registrationNo}"/>
+                        <h:outputText value="#{editEmployeeUseCaseController.conflictingEmployee.registrationNo}"/>
 
-                        <h:outputText value="University:"/>
-                        <h:outputText value="#{editStudentUseCaseController.conflictingStudent.university.title}" />
+                        <h:outputText value="Company:"/>
+                        <h:outputText value="#{editEmployeeUseCaseController.conflictingEmployee.company.title}" />
 
-                        <h:outputText value="Courses:"/>
-                        <ui:repeat var="course" value="#{editStudentUseCaseController.conflictingStudent.courseList}" varStatus="courseStatus">
-                            #{course.name}<h:outputText value=", " rendered="#{not courseStatus.last}"/>
+                        <h:outputText value="Deeds:"/>
+                        <ui:repeat var="deed" value="#{editEmployeeUseCaseController.conflictingEmployee.deedList}" varStatus="deedStatus">
+                            #{deed.name}<h:outputText value=", " rendered="#{not deedStatus.last}"/>
                         </ui:repeat>
 
                         <h:outputText value="Opt. version:" />
-                        <h:outputText value="#{editStudentUseCaseController.conflictingStudent.optLockVersion}" style="font-weight: bold"/>
+                        <h:outputText value="#{editEmployeeUseCaseController.conflictingEmployee.optLockVersion}" style="font-weight: bold"/>
                     </p:panelGrid>
 
-                    <p:commandButton value="Overwrite" actionListener="#{editStudentUseCaseController.overwriteStudent}"
-                                     rendered="#{not empty editStudentUseCaseController.conflictingStudent}"
+                    <p:commandButton value="Overwrite" actionListener="#{editEmployeeUseCaseController.overwriteEmployee}"
+                                     rendered="#{not empty editEmployeeUseCaseController.conflictingEmployee}"
                                      icon="ui-icon-notice" style="margin-top: 1em"
-                                     update=":form:studentDetail :form:list"
-                                     oncomplete="if (args &amp;&amp; !args.validationFailed) PF('studentDialog').hide()" />
+                                     update=":form:employeeDetail :form:list"
+                                     oncomplete="if (args &amp;&amp; !args.validationFailed) PF('employeeDialog').hide()" />
                 </p:outputPanel>
             </p:dialog>
 

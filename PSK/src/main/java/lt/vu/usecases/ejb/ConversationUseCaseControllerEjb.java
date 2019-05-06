@@ -1,8 +1,8 @@
 package lt.vu.usecases.ejb;
 
 import lombok.Getter;
-import lt.vu.entities.Course;
-import lt.vu.entities.Student;
+import lt.vu.entities.Deed;
+import lt.vu.entities.Employee;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
@@ -23,7 +23,7 @@ public class ConversationUseCaseControllerEjb implements Serializable {
     private static final String PAGE_INDEX_REDIRECT = "conversation-ejb?faces-redirect=true";
 
     private enum CURRENT_FORM {
-        CREATE_COURSE, CREATE_STUDENT, CONFIRMATION
+        CREATE_DEED, CREATE_EMPLOYEE, CONFIRMATION
     }
 
     @PersistenceContext(type = PersistenceContextType.EXTENDED, synchronization = SynchronizationType.UNSYNCHRONIZED)
@@ -34,16 +34,16 @@ public class ConversationUseCaseControllerEjb implements Serializable {
     private Conversation conversation;
 
     @Inject
-    private CourseEjbDAO courseEjbDAO;
+    private DeedEjbDAO deedEjbDAO;
     @Inject
-    private StudentEjbDAO studentEjbDAO;
+    private EmployeeEjbDAO employeeEjbDAO;
 
     @Getter
-    private Course course = new Course();
+    private Deed deed = new Deed();
     @Getter
-    private Student student = new Student();
+    private Employee employee = new Employee();
 
-    private CURRENT_FORM currentForm = CURRENT_FORM.CREATE_COURSE;
+    private CURRENT_FORM currentForm = CURRENT_FORM.CREATE_DEED;
     public boolean isCurrentForm(CURRENT_FORM form) {
         return currentForm == form;
     }
@@ -51,17 +51,17 @@ public class ConversationUseCaseControllerEjb implements Serializable {
     /**
      * The first conversation step.
      */
-    public void createCourse() {
+    public void createDeed() {
         conversation.begin();
-        currentForm = CURRENT_FORM.CREATE_STUDENT;
+        currentForm = CURRENT_FORM.CREATE_EMPLOYEE;
     }
 
     /**
      * The second conversation step.
      */
-    public void createStudent() {
-        student.getCourseList().add(course);
-        course.getStudentList().add(student);
+    public void createEmployee() {
+        employee.getDeedList().add(deed);
+        deed.getEmployeeList().add(employee);
         currentForm = CURRENT_FORM.CONFIRMATION;
     }
 
@@ -70,8 +70,8 @@ public class ConversationUseCaseControllerEjb implements Serializable {
      */
     public String ok() {
         try {
-            courseEjbDAO.create(course);
-            studentEjbDAO.create(student);
+            deedEjbDAO.create(deed);
+            employeeEjbDAO.create(employee);
             em.joinTransaction();
             em.flush();
             Messages.addGlobalInfo("Success!");
@@ -95,7 +95,7 @@ public class ConversationUseCaseControllerEjb implements Serializable {
         return PAGE_INDEX_REDIRECT;
     }
 
-    public List<Student> getAllStudents() {
-        return studentEjbDAO.getAllStudents();
+    public List<Employee> getAllEmployees() {
+        return employeeEjbDAO.getAllEmployees();
     }
 }

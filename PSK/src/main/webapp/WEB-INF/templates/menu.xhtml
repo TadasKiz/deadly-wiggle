@@ -4,10 +4,4 @@
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
         xmlns:p="http://primefaces.org/ui"
         >
-    <p:submenu label="Meniu...">
-        <p:menuitem value="Login" outcome="/login.xhtml" rendered="#{!user.isAuthenticated()}"/>
-        <p:menuitem value="Logout" outcome="/logout.xhtml" rendered="#{user.isAuthenticated()}"/>
-        <p:menuitem value="Tik administratoriams" outcome="/admin/danger.xhtml" rendered="#{user.isAdmin()}" />
-        <p:menuitem value="Tik prisijungusiems" outcome="/loggedIn/forUsers.xhtml" rendered="#{user.isAuthenticated()}" />
-    </p:submenu>
 </ui:composition>

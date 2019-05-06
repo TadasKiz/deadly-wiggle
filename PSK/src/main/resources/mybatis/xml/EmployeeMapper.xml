@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lt.vu.usecases.mybatis.dao.EmployeeMapper">
+    <resultMap id="BaseResultMap" type="lt.vu.usecases.mybatis.model.Employee">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
+        <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
+        <result column="registration_no" jdbcType="VARCHAR" property="registrationNo"/>
+        <result column="company_id" jdbcType="INTEGER" property="companyId"/>
+
+        <!-- Rankomis prirašytas ryšiui ManyToOne Employee -> Company -->
+        <!-- Nested result (nėra N+1 select problemos) -->
+        <association property="company" resultMap="lt.vu.usecases.mybatis.dao.CompanyMapper.BaseResultMap"
+                     columnPrefix="company_"/>
+
+        <!-- Rankomis prirašytas ryšiui ManyToMany Employee - Deed -->
+        <!-- Nested select (yra N+1 select problema) -->
+        <collection property="deeds" javaType="ArrayList" column="id" ofType="Deed" select="selectDeedsForEmployee"/>
+    </resultMap>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM public.employee
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="lt.vu.usecases.mybatis.model.Employee" useGeneratedKeys="true">
+        INSERT INTO public.employee (first_name, last_name, registration_no, company_id)
+        VALUES (#{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, #{registrationNo,jdbcType=VARCHAR}, #{companyId,jdbcType=INTEGER})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="lt.vu.usecases.mybatis.model.Employee">
+        UPDATE public.employee
+        SET first_name = #{firstName,jdbcType=VARCHAR},
+        last_name = #{lastName,jdbcType=VARCHAR},
+        registration_no = #{registrationNo,jdbcType=VARCHAR},
+        company_id = #{companyId,jdbcType=INTEGER}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT id, first_name, last_name, registration_no, company_id
+        FROM public.employee
+        WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT s.id, s.first_name, s.last_name, s.registration_no, s.company_id,
+            u.title as company_title
+        FROM public.employee s
+            LEFT JOIN public.company u ON s.company_id = u.id
+    </select>
+
+    <!-- Rankomis prirašytas ryšiui ManyToMany Employee - Deed -->
+    <select id="selectDeedsForEmployee" resultType="Deed">
+        SELECT
+            c.id,
+            c.name
+        FROM public.deed c
+            JOIN public.employee_deed sc on c.id = sc.deed_id
+        WHERE sc.employee_id = #{id,jdbcType=INTEGER}
+    </select>
+
+</mapper>

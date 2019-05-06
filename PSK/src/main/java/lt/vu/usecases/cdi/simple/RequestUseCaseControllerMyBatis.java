@@ -2,12 +2,12 @@ package lt.vu.usecases.cdi.simple;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import lt.vu.usecases.mybatis.dao.CourseMapper;
-import lt.vu.usecases.mybatis.dao.StudentCourseMapper;
-import lt.vu.usecases.mybatis.dao.StudentMapper;
-import lt.vu.usecases.mybatis.model.Course;
-import lt.vu.usecases.mybatis.model.Student;
-import lt.vu.usecases.mybatis.model.StudentCourse;
+import lt.vu.usecases.mybatis.dao.DeedMapper;
+import lt.vu.usecases.mybatis.dao.EmployeeDeedMapper;
+import lt.vu.usecases.mybatis.dao.EmployeeMapper;
+import lt.vu.usecases.mybatis.model.Deed;
+import lt.vu.usecases.mybatis.model.Employee;
+import lt.vu.usecases.mybatis.model.EmployeeDeed;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
@@ -20,36 +20,36 @@ import java.util.List;
 public class RequestUseCaseControllerMyBatis {
 
     @Getter
-    private Course course = new Course();
+    private Deed deed = new Deed();
     @Getter
-    private Student student = new Student();
+    private Employee employee = new Employee();
     @Getter
-    private List<Student> allStudents;
+    private List<Employee> allEmployees;
 
     @PostConstruct
     public void init() {
-        loadAllStudents();
+        loadAllEmployees();
     }
 
     @Inject
-    private StudentMapper studentMapper;
+    private EmployeeMapper employeeMapper;
     @Inject
-    private CourseMapper courseMapper;
+    private DeedMapper deedMapper;
     @Inject
-    private StudentCourseMapper studentCourseMapper;
+    private EmployeeDeedMapper employeeDeedMapper;
 
     @Transactional
-    public void createCourseStudent() {
-        courseMapper.insert(course);
-        studentMapper.insert(student);
-        StudentCourse studentCourse = new StudentCourse();
-        studentCourse.setCourseId(course.getId());
-        studentCourse.setStudentId(student.getId());
-        studentCourseMapper.insert(studentCourse);
+    public void createDeedEmployee() {
+        deedMapper.insert(deed);
+        employeeMapper.insert(employee);
+        EmployeeDeed employeeDeed = new EmployeeDeed();
+        employeeDeed.setDeedId(deed.getId());
+        employeeDeed.setEmployeeId(employee.getId());
+        employeeDeedMapper.insert(employeeDeed);
         log.info("Maybe OK...");
     }
 
-    private void loadAllStudents() {
-        allStudents = studentMapper.selectAll();
+    private void loadAllEmployees() {
+        allEmployees = employeeMapper.selectAll();
     }
 }

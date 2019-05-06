@@ -8,7 +8,7 @@
 >
     <h:head>
         <h:outputStylesheet name="css/styles.css" />
-        <title>Create new Course</title>
+        <title>Create new Deed</title>
     </h:head>
 
     <h:body>
@@ -25,50 +25,50 @@
                 <li>Button "Back" doesn't navigate through conversation steps (but goes back to the page preceding the conversation).</li>
             </ol>
 
-            <p:fieldset legend="All students" toggleable="true" style="width: 50%">
-                <p:dataTable value="#{conversationUseCaseControllerEjb.allStudents}" var="student">
-                    <p:column headerText="Student">
-                        <h:outputText value="#{student.firstName} #{student.lastName} #{student.registrationNo}" />
+            <p:fieldset legend="All employees" toggleable="true" style="width: 50%">
+                <p:dataTable value="#{conversationUseCaseControllerEjb.allEmployees}" var="employee">
+                    <p:column headerText="Employee">
+                        <h:outputText value="#{employee.firstName} #{employee.lastName} #{employee.registrationNo}" />
                     </p:column>
-                    <p:column headerText="Course">
-                        <ui:repeat var="course" value="#{student.courseList}">
-                            <h:outputText value="#{course.name} " />
+                    <p:column headerText="Deed">
+                        <ui:repeat var="deed" value="#{employee.deedList}">
+                            <h:outputText value="#{deed.name} " />
                         </ui:repeat>
                     </p:column>
                 </p:dataTable>
             </p:fieldset>
 
-            <p:outputPanel rendered="#{conversationUseCaseControllerEjb.isCurrentForm('CREATE_COURSE')}">
+            <p:outputPanel rendered="#{conversationUseCaseControllerEjb.isCurrentForm('CREATE_DEED')}">
                 <h1>Create new course</h1>
                 <h:panelGrid id="grid1" columns="3">
-                    <p:outputLabel for="courseName" value="Course name"/>
-                    <p:inputText id="courseName" value="#{conversationUseCaseControllerEjb.course.name}"/>
-                    <p:message for="courseName"/>
+                    <p:outputLabel for="deedName" value="Deed name"/>
+                    <p:inputText id="deedName" value="#{conversationUseCaseControllerEjb.deed.name}"/>
+                    <p:message for="deedName"/>
                 </h:panelGrid>
 
-                <p:commandButton value="Create course"
-                                 actionListener="#{conversationUseCaseControllerEjb.createCourse}"
+                <p:commandButton value="Create deed"
+                                 actionListener="#{conversationUseCaseControllerEjb.createDeed}"
                                  update="@form"/>
             </p:outputPanel>
 
-            <p:outputPanel rendered="#{conversationUseCaseControllerEjb.isCurrentForm('CREATE_STUDENT')}">
-                <h1>Create new student</h1>
+            <p:outputPanel rendered="#{conversationUseCaseControllerEjb.isCurrentForm('CREATE_EMPLOYEE')}">
+                <h1>Create new employee</h1>
                 <h:panelGrid id="grid" columns="3">
                     <p:outputLabel for="firstName" value="First name"/>
-                    <p:inputText id="firstName" value="#{conversationUseCaseControllerEjb.student.firstName}"/>
+                    <p:inputText id="firstName" value="#{conversationUseCaseControllerEjb.employee.firstName}"/>
                     <p:message for="firstName"/>
 
                     <p:outputLabel for="lastName" value="Last name"/>
-                    <p:inputText id="lastName" value="#{conversationUseCaseControllerEjb.student.lastName}"/>
+                    <p:inputText id="lastName" value="#{conversationUseCaseControllerEjb.employee.lastName}"/>
                     <p:message for="lastName"/>
 
                     <p:outputLabel for="regnr" value="Registration No."/>
-                    <p:inputText id="regnr" value="#{conversationUseCaseControllerEjb.student.registrationNo}"/>
+                    <p:inputText id="regnr" value="#{conversationUseCaseControllerEjb.employee.registrationNo}"/>
                     <p:message for="regnr"/>
                 </h:panelGrid>
 
-                <p:commandButton value="Create student"
-                                 actionListener="#{conversationUseCaseControllerEjb.createStudent}"
+                <p:commandButton value="Create employee"
+                                 actionListener="#{conversationUseCaseControllerEjb.createEmployee}"
                                  update="@form"/>
 
             </p:outputPanel>

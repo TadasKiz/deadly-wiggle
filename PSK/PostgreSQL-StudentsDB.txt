@@ -1,4 +1,4 @@
-﻿CREATE TABLE university (
+﻿CREATE TABLE company (
   id serial PRIMARY KEY,
   title CHARACTER VARYING(100) NOT NULL,
   opt_lock_version INTEGER
@@ -11,7 +11,7 @@ CREATE TABLE student (
   registration_no CHARACTER VARYING(20) NOT NULL,
   university_id INTEGER,
   opt_lock_version INTEGER,
-  FOREIGN KEY (university_id) REFERENCES university (id)
+  FOREIGN KEY (university_id) REFERENCES company (id)
 );
 
 CREATE TABLE course (

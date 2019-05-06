@@ -2,10 +2,10 @@ package lt.vu.usecases.cdi.conversation;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import lt.vu.entities.Course;
-import lt.vu.entities.Student;
-import lt.vu.usecases.cdi.dao.CourseDAO;
-import lt.vu.usecases.cdi.dao.StudentDAO;
+import lt.vu.entities.Deed;
+import lt.vu.entities.Employee;
+import lt.vu.usecases.cdi.dao.DeedDAO;
+import lt.vu.usecases.cdi.dao.EmployeeDAO;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 
@@ -29,7 +29,7 @@ public class ConversationUseCaseControllerCdi implements Serializable {
     private static final String PAGE_INDEX_REDIRECT = "conversation-cdi?faces-redirect=true";
 
     private enum CURRENT_FORM {
-        CREATE_COURSE, CREATE_STUDENT, CONFIRMATION
+        CREATE_DEED, CREATE_EMPLOYEE, CONFIRMATION
     }
 
     @Inject
@@ -40,41 +40,41 @@ public class ConversationUseCaseControllerCdi implements Serializable {
     private Conversation conversation;
 
     @Inject
-    private CourseDAO courseDAO;
+    private DeedDAO deedDAO;
     @Inject
-    private StudentDAO studentDAO;
+    private EmployeeDAO employeeDAO;
 
     @Getter
-    private Course course = new Course();
+    private Deed deed = new Deed();
     @Getter
-    private Student student = new Student();
+    private Employee employee = new Employee();
     @Getter
-    private List<Student> allStudents;
+    private List<Employee> allEmployees;
 
-    private CURRENT_FORM currentForm = CURRENT_FORM.CREATE_COURSE;
+    private CURRENT_FORM currentForm = CURRENT_FORM.CREATE_DEED;
     public boolean isCurrentForm(CURRENT_FORM form) {
         return currentForm == form;
     }
 
     @PostConstruct
     public void init() {
-        loadAllStudents();
+        loadAllEmployees();
     }
 
     /**
      * The first conversation step.
      */
-    public void createCourse() {
+    public void createDeed() {
         conversation.begin();
-        currentForm = CURRENT_FORM.CREATE_STUDENT;
+        currentForm = CURRENT_FORM.CREATE_EMPLOYEE;
     }
 
     /**
      * The second conversation step.
      */
-    public void createStudent() {
-        student.getCourseList().add(course);
-        course.getStudentList().add(student);
+    public void createEmployee() {
+        employee.getDeedList().add(deed);
+        deed.getEmployeeList().add(employee);
         currentForm = CURRENT_FORM.CONFIRMATION;
     }
 
@@ -84,8 +84,8 @@ public class ConversationUseCaseControllerCdi implements Serializable {
     @Transactional(Transactional.TxType.REQUIRED)
     public String ok() {
         try {
-            courseDAO.create(course);
-            studentDAO.create(student);
+            deedDAO.create(deed);
+            employeeDAO.create(employee);
             em.flush();
             Messages.addGlobalInfo("Success!");
         } catch (OptimisticLockException ole) {
@@ -110,7 +110,7 @@ public class ConversationUseCaseControllerCdi implements Serializable {
         return PAGE_INDEX_REDIRECT;
     }
 
-    private void loadAllStudents() {
-        allStudents = studentDAO.getAllStudents();
+    private void loadAllEmployees() {
+        allEmployees = employeeDAO.getAllEmployees();
     }
 }

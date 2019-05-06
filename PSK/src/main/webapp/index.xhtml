@@ -33,29 +33,8 @@
                     </p>
                 </dd>
 
-                <dt><b>Asynchronous calls</b></dt>
-                <dd><p>#{compA.callAsyncMethod()}</p></dd>
-
                 <dt><b>OptimisticLockException handling</b></dt>
-                <dd><p><h:link outcome="editStudent">Edit Student</h:link></p></dd>
-
-                <dt><b>Security</b></dt>
-                <dd>
-                    Konfigūracija:
-                    <ol>
-                        <li>Failą /login.config nukopijuokite į {TomEE-install-dir}/conf/</li>
-                        <li>Failą /setenv.bat nukopijuokite į {TomEE-install-dir}/bin/</li>
-                    </ol>
-                    <p:panel id="zona1" header="Testuojam metodų apsaugą" style="width: 40em">
-                        Rezultatas: <b>#{secureBean.result}</b> <br/>
-                        <p:commandButton value="Tik prisijungusiems"
-                                         actionListener="#{secureBean.tikPrisijungusiems}"
-                                         update="zona1"/>
-                        <p:commandButton value="Tik adminams"
-                                         actionListener="#{secureBean.tikAdminams}"
-                                         update="zona1"/>
-                    </p:panel>
-                </dd>
+                <dd><p><h:link outcome="editEmployee">Edit Employee</h:link></p></dd>
 
             </dl>
         </ui:define>

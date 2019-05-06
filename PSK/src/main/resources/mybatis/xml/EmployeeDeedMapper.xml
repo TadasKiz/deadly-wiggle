@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lt.vu.usecases.mybatis.dao.EmployeeDeedMapper">
+    <resultMap id="BaseResultMap" type="lt.vu.usecases.mybatis.model.EmployeeDeed">
+        <id column="employee_id" jdbcType="INTEGER" property="employeeId"/>
+        <id column="deed_id" jdbcType="INTEGER" property="deedId"/>
+    </resultMap>
+    
+    <delete id="deleteByPrimaryKey" parameterType="map">
+        DELETE FROM public.employee_deed
+        WHERE employee_id = #{employeeId,jdbcType=INTEGER}
+              AND deed_id = #{deedId,jdbcType=INTEGER}
+    </delete>
+    
+    <insert id="insert" parameterType="lt.vu.usecases.mybatis.model.EmployeeDeed">
+        INSERT INTO public.employee_deed (employee_id, deed_id)
+        VALUES (#{employeeId,jdbcType=INTEGER}, #{deedId,jdbcType=INTEGER})
+    </insert>
+    
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            employee_id,
+            deed_id
+        FROM public.employee_deed
+    </select>
+</mapper>

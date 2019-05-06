@@ -2,10 +2,10 @@ package lt.vu.usecases.cdi.simple;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import lt.vu.entities.Course;
-import lt.vu.entities.Student;
-import lt.vu.usecases.cdi.dao.CourseDAO;
-import lt.vu.usecases.cdi.dao.StudentDAO;
+import lt.vu.entities.Deed;
+import lt.vu.entities.Employee;
+import lt.vu.usecases.cdi.dao.DeedDAO;
+import lt.vu.usecases.cdi.dao.EmployeeDAO;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
@@ -18,32 +18,32 @@ import java.util.List;
 public class RequestUseCaseControllerJPA {
 
     @Getter
-    private Course course = new Course();
+    private Deed deed = new Deed();
     @Getter
-    private Student student = new Student();
+    private Employee employee = new Employee();
     @Getter
-    private List<Student> allStudents;
+    private List<Employee> allEmployees;
 
     @PostConstruct
     public void init() {
-        loadAllStudents();
+        loadAllEmployees();
     }
 
     @Inject
-    private CourseDAO courseDAO;
+    private DeedDAO deedDAO;
     @Inject
-    private StudentDAO studentDAO;
+    private EmployeeDAO employeeDAO;
 
     @Transactional
-    public void createCourseStudent() {
-        student.getCourseList().add(course);
-        course.getStudentList().add(student);
-        courseDAO.create(course);
-        studentDAO.create(student);
+    public void createDeedEmployee() {
+        employee.getDeedList().add(deed);
+        deed.getEmployeeList().add(employee);
+        deedDAO.create(deed);
+        employeeDAO.create(employee);
         log.info("Maybe OK...");
     }
 
-    private void loadAllStudents() {
-        allStudents = studentDAO.getAllStudents();
+    private void loadAllEmployees() {
+        allEmployees = employeeDAO.getAllEmployees();
     }
 }
