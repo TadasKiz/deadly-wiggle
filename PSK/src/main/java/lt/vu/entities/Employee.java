@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Employee")
+@Table(name = "EMPLOYEE")
 @NamedQueries({
     @NamedQuery(name = "Employee.findAll", query = "SELECT s FROM Employee s"),
     @NamedQuery(name = "Employee.findById", query = "SELECT s FROM Employee s WHERE s.id = :id"),
