@@ -19,15 +19,6 @@
 
                 <table>
                     <tr valign="top">
-                        <td>
-                            <ui:insert name="nav">
-                                <h:form id="navForm">
-                                    <p:menu>
-                                        <ui:include src="menu.xhtml"/>
-                                    </p:menu>
-                                </h:form>
-                            </ui:insert>
-                        </td>
                         <td style="width: 100%; text-align: center">
                             <div style="display: inline-block; text-align: left">
                                 <h1>#{pageName}</h1>
@@ -39,12 +30,6 @@
                     </tr>
                 </table>
 
-                <footer id="footer" style="margin-top: 1em">
-                    <p:panel header="Footer: Testavimui:"
-                             rendered="#{facesContext.application.projectStage == 'Development'}">
-                        <h:outputText value="Sesija: #{session.id}" />
-                    </p:panel>
-                </footer>
             </h:panelGroup>
         </h:panelGroup>
 

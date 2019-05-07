@@ -10,31 +10,17 @@
 <h:head/>
 <h:body>
     <ui:composition template="/WEB-INF/templates/mainLayout.xhtml">
-        <ui:param name="pageName" value="Laboratory classes for the 1st assignment"/>
+        <ui:param name="pageName" value="1st assignment"/>
 
         <ui:define name="content">
             <dl>
-                <dt><b>Transactions</b></dt>
-                <dd><p>#{firstComp.sayHello()}</p></dd>
 
-                <dt><b>Request type use-case example:</b></dt>
                 <dd>
                     <p>
-                        <h:link outcome="simple-usecase-jpa">Create new course and student (DAO with JPA)</h:link><br/>
-                        <h:link outcome="simple-usecase-mybatis">Create new course and student (DAO with MyBatis)</h:link>
+                        <h:link outcome="simple-usecase-jpa">JPA</h:link><br/>
+                        <h:link outcome="simple-usecase-mybatis">MyBatis</h:link>
                     </p>
                 </dd>
-
-                <dt><b>Conversation type use-case example:</b></dt>
-                <dd>
-                    <p>
-                        <h:link outcome="conversation-cdi">Example with CDI - Jei naudojate TomEE, pridėkite Hibernate biblioteką (žr. aukščiau)</h:link><br/>
-                        Papildoma medžiaga: <h:link outcome="conversation-ejb">Example with EJB</h:link>
-                    </p>
-                </dd>
-
-                <dt><b>OptimisticLockException handling</b></dt>
-                <dd><p><h:link outcome="editEmployee">Edit Employee</h:link></p></dd>
 
             </dl>
         </ui:define>
