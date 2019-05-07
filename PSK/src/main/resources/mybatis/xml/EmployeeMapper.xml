@@ -12,6 +12,13 @@
     <result column="LAST_NAME" jdbcType="VARCHAR" property="lastName" />
     <result column="COMPANY_ID" jdbcType="INTEGER" property="companyId" />
     <result column="REGISTRATION_NO" jdbcType="VARCHAR" property="registrationNo" />
+
+    <!-- Hand written-->
+    <association property="company" resultMap="lt.vu.usecases.mybatis.dao.CompanyMapper.BaseResultMap"
+                 columnPrefix="company_"/>
+
+    <!-- Hand written-->
+    <collection property="deeds" javaType="ArrayList" column="id" ofType="Deed" select="selectDeedsForEmployee"/>
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -64,5 +71,15 @@
     -->
     select ID, FIRST_NAME, LAST_NAME, COMPANY_ID, REGISTRATION_NO
     from PUBLIC.EMPLOYEE
+  </select>
+
+  <!-- Hand written-->
+  <select id="selectDeedsForEmployee" resultType="Deed">
+    SELECT
+      c.id,
+      c.name
+    FROM public.deed c
+           JOIN public.employee_deed sc on c.id = sc.deed_id
+    WHERE sc.employee_id = #{id,jdbcType=INTEGER}
   </select>
 </mapper>
